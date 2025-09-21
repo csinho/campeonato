@@ -1,0 +1,3496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campeonato de Futebol - Página Principal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5a6fd8;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-2xl: 2rem;
+            --radius-full: 9999px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .refresh-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+        }
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(16, 185, 129, 0.4);
+        }
+        .refresh-btn:active {
+            transform: scale(0.95);
+        }
+        .refresh-btn i {
+            font-size: 1.125rem;
+        }
+        .admin-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            margin: 2% auto;
+            padding: 2rem;
+            border-radius: 1.5rem;
+            width: 95%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 1rem;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .export-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .export-btn i {
+            font-size: 0.875rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+        .form-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+        .score-inputs {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .vs-divider {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .goals-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 1rem;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .goals-section h4 {
+            margin-bottom: 1.5rem;
+            color: #1e293b;
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-align: center;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+        .teams-goals {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .team-goals h5 {
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        .player-goal {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .player-goal input[type="number"] {
+            width: 60px;
+            padding: 0.25rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            text-align: center;
+        }
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .btn:not(.btn-primary) {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        .btn:not(.btn-primary):hover {
+            background: #e5e7eb;
+        }
+        /* Modal Responsivo */
+        @media (max-width: 768px) {
+            .modal-content {
+                margin: 1% auto;
+                padding: 0.75rem;
+                width: 98%;
+                max-height: 95vh;
+            }
+            .modal-header {
+                margin-bottom: 1rem;
+                padding-bottom: 0.75rem;
+            }
+            .modal-header h3 {
+                font-size: 1.125rem;
+            }
+            .teams-goals {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+            .form-group {
+                margin-bottom: 0.75rem;
+            }
+            .form-group input[type="number"] {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+            .player-goal {
+                margin-bottom: 0.25rem;
+            }
+            .player-goal input[type="number"] {
+                width: 50px;
+                padding: 0.25rem;
+                font-size: 0.75rem;
+            }
+            .form-actions {
+                margin-top: 1rem;
+                padding-top: 0.75rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .modal-content {
+                margin: 0.5% auto;
+                padding: 0.5rem;
+                border-radius: 0.5rem;
+            }
+            .modal-header h3 {
+                font-size: 1rem;
+            }
+            .modal-actions {
+                gap: 0.5rem;
+            }
+            .export-btn {
+                padding: 0.375rem 0.75rem;
+                font-size: 0.75rem;
+            }
+            .export-btn i {
+                font-size: 0.75rem;
+            }
+            .score-inputs {
+                gap: 0.5rem;
+            }
+            .vs-divider {
+                font-size: 1.25rem;
+            }
+            .goals-section h4 {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+            }
+            .team-goals h5 {
+                font-size: 0.875rem;
+            }
+            /* Estilos para gols de outros jogadores */
+            .other-players-goals {
+                margin-top: 2rem;
+                padding: 1.5rem;
+                background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+                border-radius: 1rem;
+                border: 1px solid #f59e0b;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            .other-players-goals h5 {
+                color: #92400e;
+                font-size: 1.125rem;
+                font-weight: 600;
+                margin-bottom: 1.5rem;
+                text-align: center;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid #f59e0b;
+            }
+            .other-goal-entry {
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+                margin-bottom: 1rem;
+                flex-wrap: wrap;
+            }
+            .other-goal-entry select,
+            .other-goal-entry input {
+                flex: 1;
+                min-width: 150px;
+            }
+            .other-goal-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.5rem;
+                background: #f8fafc;
+                border-radius: 0.375rem;
+                margin-bottom: 0.5rem;
+                border: 1px solid #e5e7eb;
+            }
+            .other-goal-item span {
+                font-size: 0.875rem;
+                color: #374151;
+            }
+            .other-goal-item .remove-btn {
+                background: #ef4444;
+                color: white;
+                border: none;
+                border-radius: 0.25rem;
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+                cursor: pointer;
+            }
+            .other-goal-item .remove-btn:hover {
+                background: #dc2626;
+            }
+            /* Teams Modal Mobile - Layout em linha */
+            .team-shield-large {
+                width: 3rem;
+                height: 3rem;
+                flex-shrink: 0;
+            }
+            .team-shield-large img {
+                width: 3rem;
+                height: 3rem;
+            }
+            .team-shield-placeholder {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.25rem;
+            }
+            .team-info {
+                flex: 1;
+                text-align: left;
+            }
+            .team-info-sofridos {
+                flex: 1;
+                text-align: left;
+            }
+            .team-name {
+                font-size: 1rem;
+                margin-bottom: 0.25rem;
+            }
+            .team-stats {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .team-stat {
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                font-size: 0.875rem;
+            }
+            .team-stat i {
+                font-size: 0.75rem;
+            }
+            /* Players Modal Mobile - Layout em linha */
+            .team-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem;
+                margin-bottom: 0.75rem;
+            }
+            .team-header-shield {
+                width: 2.5rem;
+                height: 2.5rem;
+                flex-shrink: 0;
+            }
+            .team-header-shield img {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+            .team-header-shield-placeholder {
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 1rem;
+            }
+            .team-header-info {
+                flex: 1;
+            }
+            .team-header-info h3 {
+                font-size: 1rem;
+                margin-bottom: 0.25rem;
+            }
+            .team-header-info p {
+                font-size: 0.875rem;
+            }
+            .players-list {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .player-card {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.75rem;
+                margin-bottom: 0.5rem;
+            }
+            .player-avatar {
+                width: 2.5rem;
+                height: 2.5rem;
+                flex-shrink: 0;
+                font-size: 1rem;
+            }
+            .player-details {
+                flex: 1;
+            }
+            .player-name {
+                font-size: 0.875rem;
+                margin-bottom: 0.125rem;
+            }
+            .player-team {
+                font-size: 0.75rem;
+            }
+            .player-goals {
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                font-size: 0.75rem;
+            }
+            .player-goals i {
+                font-size: 0.625rem;
+            }
+            /* Modal de gols do dia mobile */
+            .goals-summary {
+                padding: 0.75rem;
+                margin-bottom: 0.75rem;
+            }
+            .goals-summary h4 {
+                font-size: 1rem;
+                margin-bottom: 0.25rem;
+            }
+            .goals-summary p {
+                font-size: 0.75rem;
+            }
+            .goals-list {
+                gap: 0.5rem;
+            }
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--white);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--white);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .admin-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .admin-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        /* Main Content */
+        .main {
+            padding: 4rem 0;
+            position: relative;
+        }
+        .main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .welcome-section h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .welcome-section p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card[onclick] {
+            cursor: pointer;
+        }
+        .stat-card[onclick]:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25);
+            border-color: var(--primary);
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        .stat-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            font-size: 1rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        /* Advanced Stats */
+        .advanced-stats {
+            margin-bottom: 4rem;
+        }
+        .advanced-stats-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 2rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        .advanced-stats-title i {
+            color: var(--primary);
+        }
+        .advanced-stats-section {
+            margin-bottom: 2.5rem;
+        }
+        .advanced-stats-subtitle {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .advanced-stats-subtitle i {
+            color: var(--primary);
+        }
+        .advanced-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .advanced-stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .advanced-stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        .advanced-stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .advanced-stat-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .advanced-stat-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1rem;
+        }
+        .advanced-stat-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin: 0;
+        }
+        .advanced-stat-content {
+            min-height: 3rem;
+        }
+        .advanced-stat-content .empty-state {
+            text-align: center;
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+        .advanced-stat-content .empty-state i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .player-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        .player-details {
+            flex: 1;
+            margin-left: 0.75rem;
+        }
+        .player-name {
+            font-weight: 600;
+            color: var(--gray-900);
+            font-size: 0.875rem;
+            margin: 0 0 0.25rem 0;
+        }
+        .player-team {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            margin: 0;
+        }
+        .player-stats {
+            text-align: right;
+        }
+        .player-goals {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0;
+        }
+        .player-goals-label {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            margin: 0;
+        }
+        .team-info {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            flex-direction: column;
+        }
+        .team-info-sofridos {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .team-shield {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        .team-details {
+            flex: 1;
+        }
+        .team-name {
+            font-weight: 600;
+            color: var(--gray-900);
+            font-size: 0.875rem;
+            margin: 0 0 0.25rem 0;
+        }
+        .team-stats {
+            text-align: right;
+        }
+        .team-goals {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0;
+        }
+        .team-goals-label {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            margin: 0;
+        }
+        /* Filter Section */
+        .filter-section {
+            margin: 2rem 0;
+        }
+        .filter-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .filter-container h3 {
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        .date-select {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: white;
+            color: var(--gray-900);
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+        .date-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        /* Classification Section */
+        .classification-section {
+            margin: 2rem 0;
+        }
+        .classification-card {
+            background: rgba(255, 255, 255, 0.98);
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(102, 126, 234, 0.05);
+        }
+        /* Sections */
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .section-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+        .section-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-header .section-title {
+            flex: 1;
+        }
+        .section-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .export-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .export-btn i {
+            font-size: 0.875rem;
+        }
+        .section-icon {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.25rem;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+        .section-content {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-500);
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.75rem;
+            }
+            .header {
+                padding: 1rem 0;
+            }
+            .header-content {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            .welcome-section h2 {
+                font-size: 1.5rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            .stat-card {
+                padding: 1rem;
+            }
+            .stat-icon {
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 1rem;
+            }
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            .stat-label {
+                font-size: 0.75rem;
+            }
+            .sections-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .section-card {
+                padding: 1rem;
+            }
+            .section-title {
+                font-size: 1.25rem;
+            }
+            .filter-container {
+                padding: 1rem;
+            }
+            .date-select {
+                min-width: 150px;
+                font-size: 0.875rem;
+            }
+            .advanced-stats-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+            .advanced-stat-card {
+                padding: 1rem;
+            }
+            .advanced-stats-title {
+                font-size: 1.25rem;
+            }
+            .advanced-stats-subtitle {
+                font-size: 1rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.5rem;
+            }
+            .header {
+                padding: 0.75rem 0;
+            }
+            .logo h1 {
+                font-size: 1.25rem;
+            }
+            .welcome-section h2 {
+                font-size: 1.25rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+            .stat-card {
+                padding: 0.75rem;
+            }
+            .stat-icon {
+                width: 2rem;
+                height: 2rem;
+                font-size: 0.875rem;
+            }
+            .stat-number {
+                font-size: 1.25rem;
+            }
+            .stat-label {
+                font-size: 0.625rem;
+            }
+            .sections-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+            .section-card {
+                padding: 0.75rem;
+            }
+            .section-title {
+                font-size: 1rem;
+            }
+            .filter-container {
+                padding: 0.75rem;
+            }
+            .date-select {
+                min-width: 120px;
+                font-size: 0.75rem;
+                padding: 0.5rem;
+            }
+            .advanced-stats {
+                margin-bottom: 2rem;
+            }
+            .advanced-stats-grid {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .advanced-stat-card {
+                padding: 0.75rem;
+            }
+            .advanced-stats-title {
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+            .advanced-stats-subtitle {
+                font-size: 0.875rem;
+                margin-bottom: 0.75rem;
+            }
+            .advanced-stat-header {
+                gap: 0.5rem;
+                margin-bottom: 0.75rem;
+            }
+            .advanced-stat-icon {
+                width: 2rem;
+                height: 2rem;
+                font-size: 0.875rem;
+            }
+            .advanced-stat-title {
+                font-size: 0.875rem;
+            }
+            .player-info,
+            .team-info {
+                padding: 0.5rem;
+                gap: 0.5rem;
+            }
+            .team-info-sofridos {
+                padding: 0.5rem;
+                gap: 0.5rem;
+            }
+            .player-avatar,
+            .team-shield {
+                width: 1.75rem;
+                height: 1.75rem;
+                font-size: 0.625rem;
+            }
+            .player-name,
+            .team-name {
+                font-size: 0.75rem;
+            }
+            .player-team {
+                font-size: 0.625rem;
+            }
+            .player-goals,
+            .team-goals {
+                font-size: 1rem;
+            }
+            .player-goals-label,
+            .team-goals-label {
+                font-size: 0.625rem;
+            }
+            .empty-state {
+                padding: 1rem;
+            }
+            .empty-state i {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+            .empty-state p {
+                font-size: 0.875rem;
+            }
+            /* Melhorias específicas para partidas em mobile */
+            .round-header {
+                font-size: 0.875rem;
+                padding: 0.5rem 0.75rem;
+                margin-bottom: 0.5rem;
+            }
+            .round-matches {
+                gap: 0.5rem;
+            }
+            .match-card {
+                padding: 0.75rem;
+                margin-bottom: 0.5rem;
+            }
+            .match-date {
+                font-size: 0.75rem;
+                margin-bottom: 0.5rem;
+            }
+            .match-teams {
+                font-size: 0.75rem;
+                gap: 0.5rem;
+            }
+            .team-shield {
+                width: 1.5rem;
+                height: 1.5rem;
+                font-size: 0.625rem;
+            }
+            .team-name {
+                font-size: 0.75rem;
+            }
+            .match-score {
+                font-size: 1.25rem;
+                margin: 0.25rem 0;
+            }
+            .match-status {
+                font-size: 0.625rem;
+                padding: 0.25rem 0.5rem;
+            }
+            /* Modal mobile */
+            .modal-content {
+                margin: 2% auto;
+                width: 96%;
+                max-height: 95vh;
+                padding: 1rem;
+            }
+            .modal-header h3 {
+                font-size: 1.125rem;
+            }
+            .form-group {
+                margin-bottom: 0.75rem;
+            }
+            .form-group label {
+                font-size: 0.875rem;
+            }
+            .form-group input,
+            .form-group select {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+            /* Classificação mobile */
+            .classification-table {
+                font-size: 0.75rem;
+            }
+            .classification-table th,
+            .classification-table td {
+                padding: 0.5rem 0.25rem;
+            }
+            .team-shield-large {
+                width: 1.5rem;
+                height: 1.5rem;
+                font-size: 0.625rem;
+            }
+            .team-name-large {
+                font-size: 0.75rem;
+            }
+            /* Melhorias específicas para modais mobile */
+            .modal {
+                padding: 0.5rem;
+            }
+            .modal-content {
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                max-height: 100vh;
+                border-radius: 0;
+                padding: 1rem;
+            }
+            .modal-header {
+                padding: 1rem;
+                margin: -1rem -1rem 1rem -1rem;
+                border-radius: 0;
+            }
+            .modal-header h3 {
+                font-size: 1.125rem;
+            }
+            .close-btn {
+                width: 2rem;
+                height: 2rem;
+                font-size: 1rem;
+            }
+            .form-group {
+                margin-bottom: 1rem;
+            }
+            .form-group label {
+                font-size: 0.875rem;
+                margin-bottom: 0.5rem;
+            }
+            .form-group input,
+            .form-group select {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+                border-radius: 0.5rem;
+            }
+            .score-inputs {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .vs-divider {
+                display: none;
+            }
+            .goals-section {
+                margin-top: 1rem;
+                padding: 1rem;
+            }
+            .goals-section h4 {
+                font-size: 1rem;
+                margin-bottom: 0.75rem;
+            }
+            .teams-goals {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .team-goals h5 {
+                font-size: 0.875rem;
+                margin-bottom: 0.75rem;
+            }
+            .player-goal {
+                padding: 0.75rem;
+                margin-bottom: 0.5rem;
+            }
+            .player-goal input[type="number"] {
+                width: 60px;
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+            .other-players-goals {
+                margin-top: 1rem;
+                padding: 1rem;
+            }
+            .other-players-goals h5 {
+                font-size: 0.875rem;
+                margin-bottom: 0.75rem;
+            }
+            .form-actions {
+                flex-direction: column;
+                gap: 0.75rem;
+                margin-top: 1.5rem;
+            }
+            .form-actions .btn {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
+            /* Melhorar classificação mobile */
+            .classification-table {
+                font-size: 0.75rem;
+                overflow-x: auto;
+            }
+            .classification-table th,
+            .classification-table td {
+                padding: 0.5rem 0.25rem;
+                white-space: nowrap;
+            }
+            .classification-table th:first-child,
+            .classification-table td:first-child {
+                position: sticky;
+                left: 0;
+                background: white;
+                z-index: 1;
+            }
+        }
+        /* Estilos para modais de times e jogadores */
+        .modal-body {
+            padding: 1rem 0;
+        }
+        .team-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .team-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .team-shield-large {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+        .team-shield-placeholder {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            border: 3px solid var(--primary);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+        .team-info {
+            flex: 1;
+        }
+        .team-info-sofridos {
+            flex: 1;
+        }
+        .team-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+        .team-stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .team-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+        .team-stat i {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+        .players-by-team {
+            margin-bottom: 2rem;
+        }
+        .team-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .team-header-shield {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        .team-header-shield-placeholder {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.25rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        .team-header-info h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .team-header-info p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .players-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+        .player-card {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .player-card:hover {
+            background: var(--gray-50);
+            border-color: var(--primary);
+        }
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-direction: row;
+        }
+        .player-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+        .player-details h5 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+        .player-details p {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+        }
+        .player-goals {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .player-goals i {
+            font-size: 1rem;
+        }
+        /* Estilos para modal de gols do dia */
+        .goals-summary {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        .goals-summary h4 {
+            color: var(--primary);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .goals-summary p {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin: 0;
+        }
+        .goals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        /* Mobile styles para os novos modais */
+        @media (max-width: 480px) {
+            .team-card {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                text-align: left;
+                gap: 1rem;
+            }
+            .team-shield-large,
+            .team-shield-placeholder {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.25rem;
+            }
+            .team-name {
+                font-size: 1rem;
+            }
+            .team-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .team-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
+            .team-header-shield,
+            .team-header-shield-placeholder {
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 1rem;
+            }
+            .player-card {
+                flex-direction: row;
+                gap: 0.5rem;
+                text-align: center;
+            }
+            .player-info {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+            .player-avatar {
+                width: 2rem;
+                height: 2rem;
+                font-size: 0.75rem;
+            }
+        }
+        /* Telas muito pequenas (320px) */
+        @media (max-width: 320px) {
+            .container {
+                padding: 0.25rem;
+            }
+            .modal-content {
+                padding: 0.75rem;
+            }
+            .modal-header {
+                padding: 0.75rem;
+                margin: -0.75rem -0.75rem 0.75rem -0.75rem;
+            }
+            .modal-header h3 {
+                font-size: 1rem;
+            }
+            .form-group input,
+            .form-group select {
+                padding: 0.5rem;
+                font-size: 0.75rem;
+            }
+            .player-goal input[type="number"] {
+                width: 50px;
+                padding: 0.25rem;
+                font-size: 0.75rem;
+            }
+            .btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.75rem;
+            }
+            .classification-table {
+                font-size: 0.625rem;
+            }
+            .classification-table th,
+            .classification-table td {
+                padding: 0.25rem 0.125rem;
+            }
+        }
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .stat-card,
+        .section-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        .stat-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        .stat-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        .stat-card:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            min-width: 300px;
+            max-width: 400px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .toast.success {
+            border-left: 4px solid #10b981;
+        }
+        .toast.error {
+            border-left: 4px solid #ef4444;
+        }
+        .toast.warning {
+            border-left: 4px solid #f59e0b;
+        }
+        .toast.info {
+            border-left: 4px solid #3b82f6;
+        }
+        .toast-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 12px;
+            color: white;
+        }
+        .toast.success .toast-icon {
+            background: #10b981;
+        }
+        .toast.error .toast-icon {
+            background: #ef4444;
+        }
+        .toast.warning .toast-icon {
+            background: #f59e0b;
+        }
+        .toast.info .toast-icon {
+            background: #3b82f6;
+        }
+        .toast-title {
+            font-weight: 600;
+            color: #111827;
+            font-size: 14px;
+        }
+        .toast-message {
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .toast-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 16px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        .toast-close:hover {
+            background: rgba(0, 0, 0, 0.1);
+            color: #374151;
+        }
+        @media (max-width: 480px) {
+            .toast-container {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+            }
+            .toast {
+                min-width: auto;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-futbol"></i>
+                    <h1>Campeonato dos Galáticos</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="refresh-btn" onclick="refreshData()" title="Atualizar dados">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <div class="admin-access" id="admin-access" style="display: none;">
+                        <button class="admin-btn" onclick="goToAdmin()">
+                            <i class="fas fa-cog"></i> Área Administrativa
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div class="content">
+                <!-- Filtro de Data -->
+                <section class="filter-section">
+                    <div class="filter-container">
+                        <h3><i class="fas fa-calendar"></i> Filtrar por Data</h3>
+                        <select id="date-filter" class="date-select">
+                            <option value="all">Todas as datas</option>
+                        </select>
+                </div>
+            </section>
+                <!-- Classificação em Destaque -->
+                <section class="classification-section">
+                    <div class="section-card classification-card">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <h3 class="section-title">Classificação</h3>
+                        </div>
+                        <div class="section-content" id="classification-content">
+                            <div class="empty-state">
+                                <i class="fas fa-trophy"></i>
+                                <p>Nenhum time cadastrado ainda.</p>
+                            </div>
+                        </div>
+                </div>
+            </section>
+                <!-- Seções Secundárias -->
+                <section class="sections-grid">
+                    <div class="section-card">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                        </div>
+                            <h3 class="section-title">Partidas</h3>
+                            <div class="section-actions" id="matches-actions" style="display: none;">
+                                <button class="export-btn" onclick="exportMatchesToCSV()" title="Exportar partidas para CSV">
+                                    <i class="fas fa-download"></i>
+                                    Exportar CSV
+                                </button>
+                    </div>
+                        </div>
+                        <div class="section-content" id="matches-content">
+                            <div class="empty-state">
+                                <i class="fas fa-calendar-alt"></i>
+                                <p>Nenhuma partida agendada.</p>
+                    </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="sections-grid">
+                    <div class="section-card">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-list-alt"></i>
+                            </div>
+                            <h3 class="section-title">Regras</h3>
+                        </div>
+                        <div class="section-content" id="rules-content">
+                            <div class="empty-state">
+                                <i class="fas fa-list-alt"></i>
+                                <p>Nenhuma regra cadastrada.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+                <!-- Stats -->
+                <section class="stats-grid">
+                    <div class="stat-card" onclick="openTeamsModal()" style="cursor: pointer;">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-number" id="total-teams">0</div>
+                        <div class="stat-label">Times Cadastrados</div>
+                    </div>
+                    <div class="stat-card" onclick="openPlayersModal()" style="cursor: pointer;">
+                        <div class="stat-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="stat-number" id="total-players">0</div>
+                        <div class="stat-label">Jogadores</div>
+                    </div>
+                    <div class="stat-card" onclick="openGoalsTodayModal()" style="cursor: pointer;">
+                        <div class="stat-icon">
+                            <i class="fas fa-futbol"></i>
+                        </div>
+                        <div class="stat-number" id="goals-today">0</div>
+                        <div class="stat-label">Gols Hoje</div>
+                </div>
+            </section>
+                <!-- Estatísticas Avançadas -->
+                <section class="advanced-stats">
+                    <h3 class="advanced-stats-title" style="color: #ffffff;">
+                        <i class="fas fa-chart-line" style="color: #ffffff;"></i>
+                        Estatísticas Avançadas
+                    </h3>
+                    <!-- Artilheiros -->
+                    <div class="advanced-stats-section">
+                        <h4 class="advanced-stats-subtitle" style="color: #ffffff;">
+                            <i class="fas fa-futbol" style="color: #ffffff;"></i>
+                            Artilheiros
+                        </h4>
+                        <div class="advanced-stats-grid">
+                            <!-- Artilheiro do Dia -->
+                            <div class="advanced-stat-card">
+                                <div class="advanced-stat-header">
+                                    <div class="advanced-stat-icon">
+                                        <i class="fas fa-crown"></i>
+                                    </div>
+                                    <h4 class="advanced-stat-title">Artilheiro do Dia</h4>
+                                </div>
+                                <div class="advanced-stat-content" id="top-scorer-today">
+                                    <div class="empty-state">
+                                        <i class="fas fa-futbol"></i>
+                                        <p>Nenhum gol hoje</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Artilheiro Total -->
+                            <div class="advanced-stat-card">
+                                <div class="advanced-stat-header">
+                                    <div class="advanced-stat-icon">
+                                        <i class="fas fa-trophy"></i>
+                                    </div>
+                                    <h4 class="advanced-stat-title">Artilheiro Total</h4>
+                                </div>
+                                <div class="advanced-stat-content" id="top-scorer-total">
+                                    <div class="empty-state">
+                                        <i class="fas fa-futbol"></i>
+                                        <p>Nenhum gol marcado</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            <!-- Times -->
+                    <div class="advanced-stats-section">
+                        <h4 class="advanced-stats-subtitle" style="color: #ffffff;">
+                            <i class="fas fa-users" style="color: #ffffff;"></i>
+                            Times
+                        </h4>
+                        <div class="advanced-stats-grid">
+                            <!-- Melhor Ataque -->
+                            <div class="advanced-stat-card">
+                                <div class="advanced-stat-header">
+                                    <div class="advanced-stat-icon">
+                                        <i class="fas fa-fire"></i>
+                </div>
+                                    <h4 class="advanced-stat-title">Melhor Ataque</h4>
+                                </div>
+                                <div class="advanced-stat-content" id="best-attack">
+                                    <div class="empty-state">
+                                        <i class="fas fa-users"></i>
+                                        <p>Nenhuma partida jogada</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Pior Zaga -->
+                            <div class="advanced-stat-card">
+                                <div class="advanced-stat-header">
+                                    <div class="advanced-stat-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <h4 class="advanced-stat-title">Pior Zaga</h4>
+                                </div>
+                                <div class="advanced-stat-content" id="worst-defense">
+                                    <div class="empty-state">
+                                        <i class="fas fa-users"></i>
+                                        <p>Nenhuma partida jogada</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </section>
+            </div>
+        </div>
+    </main>
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Modal de Alerta -->
+    <div id="alert-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="alert-title">Alerta</h3>
+                <button class="close-btn" onclick="closeAlertModal()">&times;</button>
+        </div>
+            <div class="modal-body">
+                <p id="alert-message">Mensagem de alerta</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeAlertModal()">OK</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de Times -->
+    <div id="teams-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Times Cadastrados</h3>
+                <button class="close-btn" onclick="closeTeamsModal()">&times;</button>
+        </div>
+            <div class="modal-body">
+                <div id="teams-list-content">
+                    <!-- Conteúdo será preenchido dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de Jogadores -->
+    <div id="players-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Jogadores por Time</h3>
+                <div class="modal-actions">
+                    <button id="export-players-btn" class="export-btn" onclick="exportPlayersToCSV()" title="Exportar jogadores para CSV" style="display: none;">
+                        <i class="fas fa-download"></i>
+                        Exportar CSV
+                    </button>
+                    <button class="close-btn" onclick="closePlayersModal()">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="players-list-content">
+                    <!-- Conteúdo será preenchido dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de Gols do Dia -->
+    <div id="goals-today-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Gols do Dia</h3>
+                <button class="close-btn" onclick="closeGoalsTodayModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="goals-today-content">
+                    <!-- Gols do dia serão carregados aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de Edição de Partida -->
+    <div id="match-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Partida</h3>
+                <button class="close-btn" onclick="closeMatchModal()">&times;</button>
+            </div>
+            <form id="match-edit-form">
+                <div class="form-group">
+                    <label id="match-info">Partida</label>
+                </div>
+                <div class="form-group">
+                    <label>Placar:</label>
+                    <div class="score-inputs">
+                        <input type="number" id="home-goals" name="home_goals" min="0" placeholder="0">
+                        <span class="vs-divider">x</span>
+                        <input type="number" id="away-goals" name="away_goals" min="0" placeholder="0">
+                    </div>
+                </div>
+                <div class="goals-section" id="goals-section">
+                    <h4>Gols dos Jogadores</h4>
+                    <div class="teams-goals">
+                        <div class="team-goals">
+                            <h5 id="home-team-name">Time Casa</h5>
+                            <div id="home-players-goals"></div>
+                        </div>
+                        <div class="team-goals">
+                            <h5 id="away-team-name">Time Visitante</h5>
+                            <div id="away-players-goals"></div>
+                        </div>
+                    </div>
+                    <!-- Seção para gols de jogadores de outros times -->
+                    <div class="other-players-goals">
+                        <h5>Gols de Outros Jogadores</h5>
+                        <div class="other-goal-entry">
+                            <select id="other-player-select" class="form-control">
+                                <option value="">Selecione um jogador</option>
+                            </select>
+                            <select id="other-goal-team" class="form-control">
+                                <option value="">Para qual time foi o gol?</option>
+                                <option value="home">Time Casa</option>
+                                <option value="away">Time Visitante</option>
+                            </select>
+                            <input type="number" id="other-goal-count" min="1" max="10" value="1" class="form-control"
+                                style="width: 80px;">
+                            <button type="button" class="btn btn-secondary"
+                                onclick="addOtherPlayerGoal()">Adicionar</button>
+                        </div>
+                        <div id="other-goals-list"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="match-finished"> Partida encerrada
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn" onclick="closeMatchModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="shared.js"></script>
+    <script>
+        // Configuração do Supabase já está no shared.js
+        // Variáveis globais
+        let teams = [];
+        let players = [];
+        let matches = [];
+        let rules = [];
+        let goals = [];
+        let selectedDate = 'all';
+        let currentUser = null;
+        let currentAdmin = null;
+        let currentMatch = null;
+        let otherPlayerGoals = []; // Array para gols de outros jogadores
+        // Gerar datas das sextas-feiras
+        function generateFridayDates() {
+            const dates = [];
+            // Começar da sexta-feira 12/09/2025
+            let currentFriday = new Date(2025, 8, 12); // Mês 8 = setembro (0-indexado)
+            // Gerar sextas-feiras até o final do ano 2025
+            const endOfYear = new Date(2025, 11, 31); // Dezembro 2025
+            while (currentFriday <= endOfYear) {
+                dates.push({
+                    value: currentFriday.toISOString().split('T')[0],
+                    label: currentFriday.toLocaleDateString('pt-BR', {
+                        weekday: 'long',
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    })
+                });
+                // Próxima sexta-feira (7 dias depois)
+                currentFriday.setDate(currentFriday.getDate() + 7);
+            }
+            return dates;
+        }
+        // Inicializar filtro de datas
+        function initializeDateFilter() {
+            const dateFilter = document.getElementById('date-filter');
+            const fridayDates = generateFridayDates();
+            // Limpar opções existentes (exceto "Todas as datas")
+            dateFilter.innerHTML = '<option value="all">Todas as datas</option>';
+            // Adicionar datas das sextas-feiras
+            fridayDates.forEach(date => {
+                const option = document.createElement('option');
+                option.value = date.value;
+                option.textContent = date.label;
+                dateFilter.appendChild(option);
+            });
+            // Adicionar listener para mudanças
+            dateFilter.addEventListener('change', (e) => {
+                selectedDate = e.target.value;
+                updateUI();
+            });
+        }
+        // Carregar dados
+        async function loadData() {
+            try {
+                // Carregar times
+                const { data: teamsData, error: teamsError } = await supabaseClient
+                    .from('teams')
+                    .select('*')
+                    .order('name');
+                if (teamsError) {
+                    throw teamsError;
+                }
+                teams = teamsData || [];
+                // Carregar jogadores
+                const { data: playersData, error: playersError } = await supabaseClient
+                    .from('players')
+                    .select('*')
+                    .order('name');
+                if (playersError) {
+                    throw playersError;
+                }
+                players = playersData || [];
+                // Carregar partidas
+                const { data: matchesData, error: matchesError } = await supabaseClient
+                    .from('matches')
+                    .select('*')
+                    .order('match_date');
+                if (matchesError) {
+                    throw matchesError;
+                }
+                matches = matchesData || [];
+                // Carregar regras
+                const { data: rulesData, error: rulesError } = await supabaseClient
+                    .from('rules')
+                    .select('*')
+                    .order('title');
+                if (rulesError) {
+                    throw rulesError;
+                }
+                rules = rulesData || [];
+                // Carregar gols
+                const { data: goalsData, error: goalsError } = await supabaseClient
+                    .from('goals')
+                    .select('*');
+                if (goalsError) {
+                    throw goalsError;
+                }
+                goals = goalsData || [];
+                updateUI();
+            } catch (error) {
+                showError(`Erro ao carregar dados: ${error.message}`);
+            }
+        }
+        // Sistema de Toast Notifications
+        function showToast(message, type = 'info', title = null) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ'
+            };
+            const titles = {
+                success: 'Sucesso',
+                error: 'Erro',
+                warning: 'Aviso',
+                info: 'Informação'
+            };
+            toast.innerHTML = `
+                <div class="toast-header">
+                    <div class="toast-icon">${icons[type] || icons.info}</div>
+                    <div class="toast-title">${title || titles[type] || titles.info}</div>
+                </div>
+                <div class="toast-message">${message}</div>
+                <button class="toast-close" onclick="removeToast(this.parentElement)">&times;</button>
+            `;
+            container.appendChild(toast);
+            // Animar entrada
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            // Auto remover após 5 segundos
+            setTimeout(() => {
+                removeToast(toast);
+            }, 5000);
+        }
+        function removeToast(toast) {
+            if (!toast) return;
+            toast.classList.remove('show');
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.parentElement.removeChild(toast);
+                }
+            }, 300);
+        }
+        // Função para atualizar dados
+        async function refreshData() {
+            try {
+                showToast('Atualizando dados...', 'info');
+                await loadData();
+                showToast('Dados atualizados com sucesso!', 'success');
+            } catch (error) {
+                showToast('Erro ao atualizar dados: ' + error.message, 'error');
+            }
+        }
+        // Atualizar interface
+        function updateUI() {
+            // Calcular estatísticas baseadas na data selecionada
+            const filterDate = selectedDate !== 'all' ? selectedDate : new Date().toISOString().split('T')[0];
+            const goalsFiltered = matches.filter(match => match.match_date === filterDate).reduce((total, match) => {
+                return total + (match.home_goals || 0) + (match.away_goals || 0);
+            }, 0);
+            // Atualizar estatísticas
+            document.getElementById('total-teams').textContent = teams.length;
+            document.getElementById('total-players').textContent = players.length;
+            document.getElementById('goals-today').textContent = goalsFiltered;
+            // Atualizar labels baseados na data selecionada
+            const goalsLabel = document.querySelector('#goals-today').parentElement.querySelector('.stat-label');
+            if (selectedDate === 'all') {
+                goalsLabel.textContent = 'Gols Hoje';
+            } else {
+                const dateFormatted = formatDate(selectedDate);
+                goalsLabel.textContent = `Gols - ${dateFormatted}`;
+            }
+            // Atualizar seções
+            updateClassificationSection();
+            updateMatchesSection();
+            updateRulesSection();
+            updateAdvancedStats();
+            // Mostrar botão de exportar apenas para admins
+            updateExportButton();
+            updateExportPlayersButton();
+        }
+        // Atualizar visibilidade do botão de exportar
+        function updateExportButton() {
+            const exportActions = document.getElementById('matches-actions');
+            if (exportActions) {
+                if (currentAdmin && (currentAdmin.role === 'admin' || currentAdmin.role === 'super_admin')) {
+                    exportActions.style.display = 'flex';
+                } else {
+                    exportActions.style.display = 'none';
+                }
+            }
+        }
+
+        // Atualizar visibilidade do botão de exportar jogadores
+        function updateExportPlayersButton() {
+            const exportPlayersBtn = document.getElementById('export-players-btn');
+            if (exportPlayersBtn) {
+                if (currentAdmin && (currentAdmin.role === 'admin' || currentAdmin.role === 'super_admin')) {
+                    exportPlayersBtn.style.display = 'flex';
+                } else {
+                    exportPlayersBtn.style.display = 'none';
+                }
+            }
+        }
+        // Exportar partidas para CSV
+        function exportMatchesToCSV() {
+            try {
+                // Filtrar partidas por data selecionada
+                let filteredMatches = matches;
+                if (selectedDate !== 'all') {
+                    filteredMatches = matches.filter(match => match.match_date === selectedDate);
+                }
+                if (filteredMatches.length === 0) {
+                    showToast('Nenhuma partida para exportar', 'warning');
+                    return;
+                }
+                // Organizar partidas em rodadas
+                const rounds = organizeMatchesInRounds(filteredMatches, teams);
+                // Criar CSV
+                let csvContent = 'Rodada,Time Casa,Placar,Time Visitante,Status\n';
+                rounds.forEach(round => {
+                    round.matches.forEach(match => {
+                        const matchDate = formatDate(match.match_date);
+                        const score = match.home_goals !== null && match.away_goals !== null 
+                            ? `${match.home_goals} x ${match.away_goals}`
+                            : 'vs';
+                        const status = match.status === 'finished' ? 'Finalizada' : 
+                                     match.status === 'in_progress' ? 'Em andamento' : 
+                                     match.status === 'scheduled' ? 'Agendada' : 'Não iniciada';
+                        csvContent += `"${round.round}","${match.homeTeam?.name || 'N/A'}","${score}","${match.awayTeam?.name || 'N/A'}","${status}"\n`;
+                    });
+                });
+                // Download do arquivo
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                const fileName = selectedDate === 'all' 
+                    ? `partidas_${new Date().toISOString().split('T')[0]}.csv`
+                    : `partidas_${selectedDate}.csv`;
+                link.setAttribute('download', fileName);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('CSV exportado com sucesso!', 'success');
+            } catch (error) {
+                showToast('Erro ao exportar CSV: ' + error.message, 'error');
+            }
+        }
+        // Atualizar seção de classificação
+        function updateClassificationSection() {
+            const content = document.getElementById('classification-content');
+            if (teams.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-trophy"></i>
+                        <p>Nenhum time cadastrado ainda.</p>
+                    </div>
+                `;
+                return;
+            }
+            // Calcular classificação usando função centralizada
+            const teamStats = calculateTeamClassification(teams, matches);
+            const classificationTable = `
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+                        <thead>
+                            <tr style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;">
+                                <th style="padding: 0.75rem; text-align: left; border-radius: 0.5rem 0 0 0;">Pos</th>
+                                <th style="padding: 0.75rem; text-align: left;">Time</th>
+                                <th style="padding: 0.75rem; text-align: center;">P</th>
+                                <th style="padding: 0.75rem; text-align: center;">J</th>
+                                <th style="padding: 0.75rem; text-align: center;">V</th>
+                                <th style="padding: 0.75rem; text-align: center;">E</th>
+                                <th style="padding: 0.75rem; text-align: center;">D</th>
+                                <th style="padding: 0.75rem; text-align: center;">GP</th>
+                                <th style="padding: 0.75rem; text-align: center;">GC</th>
+                                <th style="padding: 0.75rem; text-align: center; border-radius: 0 0.5rem 0 0;">SG</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${teamStats.map((team, index) => `
+                                <tr style="border-bottom: 1px solid var(--gray-200);">
+                                    <td style="padding: 0.75rem; font-weight: 600; color: var(--gray-700);">
+                                        ${index + 1}º
+                                    </td>
+                                    <td style="padding: 0.75rem;">
+                                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                            ${team.shield_url ?
+                    `<img src="${team.shield_url}" alt="${team.name}" style="width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; border: 2px solid rgba(102, 126, 234, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">` :
+                    `<div style="width: 2.5rem; height: 2.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.875rem; border: 2px solid rgba(102, 126, 234, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">${team.name.charAt(0).toUpperCase()}</div>`
+                }
+                                            <span style="font-weight: 600; color: var(--gray-900);">${team.name}</span>
+                                        </div>
+                                    </td>
+                                    <td style="padding: 0.75rem; text-align: center; font-weight: 600; color: var(--primary);">${team.pontos}</td>
+                                    <td style="padding: 0.75rem; text-align: center;">${team.jogos}</td>
+                                    <td style="padding: 0.75rem; text-align: center; color: #10b981;">${team.vitorias}</td>
+                                    <td style="padding: 0.75rem; text-align: center; color: #f59e0b;">${team.empates}</td>
+                                    <td style="padding: 0.75rem; text-align: center; color: #ef4444;">${team.derrotas}</td>
+                                    <td style="padding: 0.75rem; text-align: center;">${team.golsPro}</td>
+                                    <td style="padding: 0.75rem; text-align: center;">${team.golsContra}</td>
+                                    <td style="padding: 0.75rem; text-align: center; font-weight: 600; color: ${team.saldoGols >= 0 ? '#10b981' : '#ef4444'};">
+                                        ${team.saldoGols >= 0 ? '+' : ''}${team.saldoGols}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            content.innerHTML = classificationTable;
+        }
+        // Atualizar seção de partidas
+        function updateMatchesSection() {
+            const content = document.getElementById('matches-content');
+            // Filtrar partidas por data selecionada
+            let filteredMatches = matches;
+            if (selectedDate !== 'all') {
+                filteredMatches = matches.filter(match => match.match_date === selectedDate);
+            } else {
+                // Se "Todas as datas", mostrar próximas partidas
+                filteredMatches = matches.filter(match => new Date(match.match_date) >= new Date()).slice(0, 3);
+            }
+            if (filteredMatches.length === 0) {
+                const message = selectedDate === 'all' ? 'Nenhuma partida próxima.' : 'Nenhuma partida nesta data.';
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>${message}</p>
+                        </div>
+                `;
+                return;
+            }
+            // Organizar partidas em rodadas
+            const rounds = organizeMatchesInRounds(filteredMatches, teams);
+            const simplifiedRounds = rounds.map(round => ({
+                round: round.round,
+                matches: round.matches.map(match => ({
+                    match_date: match.match_date,
+                    status: match.status,
+                    homeTeam: { name: match.homeTeam?.name || 'N/A' },
+                    awayTeam: { name: match.awayTeam?.name || 'N/A' }
+                }))
+            }));
+            const roundsHTML = rounds.map(round => {
+                const matchesHTML = round.matches.map(match => {
+                    const matchDate = formatDate(match.match_date);
+                    const isClickable = currentAdmin && (currentAdmin.role === 'admin' || currentAdmin.role === 'super_admin');
+                    const clickStyle = isClickable ? 'cursor: pointer; transition: all 0.3s ease;' : '';
+                    return `
+                        <div style="padding: 1rem; background: var(--gray-50); border-radius: var(--radius-lg); margin-bottom: 0.5rem; ${clickStyle}" 
+                             ${isClickable ? `onclick="openMatchModal('${match.id}')" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'"` : ''}>
+                            <div style="text-align: center; margin-bottom: 0.75rem;">
+                                <span style="color: var(--gray-600); font-size: 0.875rem;">${matchDate}</span>
+                                ${isClickable ? '<span style="color: var(--primary); font-size: 0.75rem; margin-left: 0.5rem;">(Clique para editar)</span>' : ''}
+                    </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; flex: 1;">
+                                    ${match.homeTeam && match.homeTeam.shield_url ?
+                            `<img src="${match.homeTeam.shield_url}" alt="${match.homeTeam.name}" style="width: 2rem; height: 2rem; border-radius: 50%; object-fit: cover; border: 2px solid rgba(102, 126, 234, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">` :
+                            `<div style="width: 2rem; height: 2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.75rem; border: 2px solid rgba(102, 126, 234, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">${match.homeTeam ? match.homeTeam.name.charAt(0).toUpperCase() : '?'}</div>`
+                        }
+                                    <span style="font-weight: 500; color: var(--gray-900); font-size: 0.875rem;">${match.homeTeam?.name || 'Time Casa'}</span>
+                        </div>
+                                <div style="display: flex; flex-direction: column; align-items: center; margin: 0 1rem;">
+                                    ${match.home_goals !== null && match.away_goals !== null ?
+                            `<div style="font-weight: bold; color: var(--primary); font-size: 1.5rem; line-height: 1;">${match.home_goals} x ${match.away_goals}</div>` :
+                            '<div style="color: var(--gray-500); font-size: 0.75rem; font-weight: 500;">Aguardando</div>'
+                        }
+                    </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem; flex: 1; justify-content: flex-end;">
+                                    <span style="font-weight: 500; color: var(--gray-900); font-size: 0.875rem;">${match.awayTeam?.name || 'Time Visitante'}</span>
+                                    ${match.awayTeam && match.awayTeam.shield_url ?
+                            `<img src="${match.awayTeam.shield_url}" alt="${match.awayTeam.name}" style="width: 2rem; height: 2rem; border-radius: 50%; object-fit: cover; border: 2px solid rgba(102, 126, 234, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">` :
+                            `<div style="width: 2rem; height: 2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.75rem; border: 2px solid rgba(102, 126, 234, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">${match.awayTeam ? match.awayTeam.name.charAt(0).toUpperCase() : '?'}</div>`
+                        }
+                        </div>
+                    </div>
+                </div>
+                    `;
+                }).join('');
+                return `
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="color: var(--primary); font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; text-align: center; padding: 0.5rem; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); border-radius: var(--radius-md); border: 1px solid rgba(102, 126, 234, 0.2);">
+                            🏆 Rodada ${round.roundNumber}
+                        </h4>
+                        <div class="round-matches">
+                            ${matchesHTML}
+                </div>
+                </div>
+                `;
+            }).join('');
+            content.innerHTML = `
+                <div class="rounds-container">
+                    ${roundsHTML}
+        </div>
+            `;
+        }
+        // Atualizar seção de regras
+        function updateRulesSection() {
+            const content = document.getElementById('rules-content');
+            if (rules.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-list-alt"></i>
+                        <p>Nenhuma regra cadastrada.</p>
+        </div>
+                `;
+                return;
+            }
+            const rulesList = rules.slice(0, 3).map(rule => `
+                <div style="padding: 1rem; background: var(--gray-50); border-radius: var(--radius-lg); margin-bottom: 0.5rem;">
+                    <h4 style="font-weight: 600; color: var(--gray-900); margin-bottom: 0.5rem;">${rule.title}</h4>
+                    <p style="color: var(--gray-600); font-size: 0.875rem; line-height: 1.5;">${rule.description}</p>
+        </div>
+            `).join('');
+            content.innerHTML = rulesList;
+        }
+        // Atualizar estatísticas avançadas
+        function updateAdvancedStats() {
+            updateTopScorerToday();
+            updateTopScorerTotal();
+            updateBestAttack();
+            updateWorstDefense();
+        }
+        // Artilheiro do dia
+        function updateTopScorerToday() {
+            const content = document.getElementById('top-scorer-today');
+            // Usar a data selecionada no filtro ou hoje
+            const filterDate = selectedDate || new Date().toISOString().split('T')[0];
+            // Buscar gols da data selecionada
+            const todayGoals = goals.filter(goal => {
+                // Buscar a partida do gol para obter a data
+                const match = matches.find(m => m.id === goal.match_id);
+                if (!match) return false;
+                return match.match_date === filterDate;
+            });
+            if (todayGoals.length === 0) {
+                const dateLabel = filterDate === new Date().toISOString().split('T')[0] ? 'hoje' : `em ${formatDate(filterDate)}`;
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-futbol"></i>
+                        <p>Nenhum gol ${dateLabel}</p>
+                    </div>
+                `;
+                return;
+            }
+            // Contar gols por jogador
+            const playerGoals = {};
+            todayGoals.forEach(goal => {
+                const player = players.find(p => p.id === goal.player_id);
+                if (player) {
+                    if (!playerGoals[player.id]) {
+                        playerGoals[player.id] = {
+                            player: player,
+                            goals: 0
+                        };
+                    }
+                    playerGoals[player.id].goals++;
+                }
+            });
+            // Encontrar artilheiros do dia (todos os empatados no topo)
+            const sortedPlayers = Object.values(playerGoals).sort((a, b) => b.goals - a.goals);
+            const maxGoals = sortedPlayers[0]?.goals || 0;
+            const topScorers = sortedPlayers.filter(player => player.goals === maxGoals)
+                .sort((a, b) => a.player.name.localeCompare(b.player.name));
+            if (topScorers.length > 0) {
+                const topScorersHTML = topScorers.map(topScorer => {
+                    const team = teams.find(t => t.id === topScorer.player.team_id);
+                    return `
+                        <div class="player-info">
+                            <div class="player-avatar">
+                                ${topScorer.player.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div class="player-details">
+                                <p class="player-name">${topScorer.player.name}</p>
+                                <p class="player-team">${team ? team.name : 'Time não encontrado'}</p>
+                            </div>
+                            <div class="player-stats">
+                                <p class="player-goals">${topScorer.goals}</p>
+                                <p class="player-goals-label">gol${topScorer.goals > 1 ? 's' : ''}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                content.innerHTML = topScorersHTML;
+            }
+        }
+        // Artilheiro total
+        function updateTopScorerTotal() {
+            const content = document.getElementById('top-scorer-total');
+            if (goals.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-futbol"></i>
+                        <p>Nenhum gol marcado</p>
+                    </div>
+                `;
+                return;
+            }
+            // Contar gols por jogador
+            const playerGoals = {};
+            goals.forEach(goal => {
+                const player = players.find(p => p.id === goal.player_id);
+                if (player) {
+                    if (!playerGoals[player.id]) {
+                        playerGoals[player.id] = {
+                            player: player,
+                            goals: 0
+                        };
+                    }
+                    playerGoals[player.id].goals++;
+                }
+            });
+            // Encontrar artilheiros totais (todos os empatados no topo)
+            const sortedPlayers = Object.values(playerGoals).sort((a, b) => b.goals - a.goals);
+            const maxGoals = sortedPlayers[0]?.goals || 0;
+            const topScorers = sortedPlayers.filter(player => player.goals === maxGoals)
+                .sort((a, b) => a.player.name.localeCompare(b.player.name));
+            if (topScorers.length > 0) {
+                const topScorersHTML = topScorers.map(topScorer => {
+                    const team = teams.find(t => t.id === topScorer.player.team_id);
+                    return `
+                        <div class="player-info">
+                            <div class="player-avatar">
+                                ${topScorer.player.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div class="player-details">
+                                <p class="player-name">${topScorer.player.name}</p>
+                                <p class="player-team">${team ? team.name : 'Time não encontrado'}</p>
+                            </div>
+                            <div class="player-stats">
+                                <p class="player-goals">${topScorer.goals}</p>
+                                <p class="player-goals-label">gol${topScorer.goals > 1 ? 's' : ''}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                content.innerHTML = topScorersHTML;
+            }
+        }
+        // Melhor ataque
+        function updateBestAttack() {
+            const content = document.getElementById('best-attack');
+            // Calcular gols por time
+            const teamStats = calculateTeamClassification(teams, matches);
+            if (teamStats.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Nenhuma partida jogada</p>
+                    </div>
+                `;
+                return;
+            }
+            // Encontrar melhor ataque (mais gols marcados)
+            const bestAttack = teamStats.sort((a, b) => b.golsPro - a.golsPro)[0];
+            if (bestAttack && bestAttack.golsPro > 0) {
+                content.innerHTML = `
+                    <div class="player-info">
+                        <div class="player-avatar">
+                            ${bestAttack.shield_url ? 
+                                `<img src="${bestAttack.shield_url}" alt="${bestAttack.name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">` :
+                                bestAttack.name.charAt(0).toUpperCase()
+                            }
+                        </div>
+                        <div class="player-details">
+                            <div class="player-name">${bestAttack.name}</div>
+                        </div>
+                        <div class="player-goals">
+                            <i class="fas fa-futbol"></i>
+                            <span class="player-goals-label">${bestAttack.golsPro} gols</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Nenhuma partida jogada</p>
+                    </div>
+                `;
+            }
+        }
+        // Pior zaga
+        function updateWorstDefense() {
+            const content = document.getElementById('worst-defense');
+            // Calcular gols por time
+            const teamStats = calculateTeamClassification(teams, matches);
+            if (teamStats.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Nenhuma partida jogada</p>
+                    </div>
+                `;
+                return;
+            }
+            // Encontrar pior zaga (mais gols sofridos)
+            const worstDefense = teamStats.sort((a, b) => b.golsContra - a.golsContra)[0];
+            if (worstDefense && worstDefense.golsContra > 0) {
+                content.innerHTML = `
+                    <div class="player-info">
+                        <div class="player-avatar">
+                            ${worstDefense.shield_url ? 
+                                `<img src="${worstDefense.shield_url}" alt="${worstDefense.name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">` :
+                                worstDefense.name.charAt(0).toUpperCase()
+                            }
+                        </div>
+                        <div class="player-details">
+                            <div class="player-name">${worstDefense.name}</div>
+                        </div>
+                        <div class="player-goals">
+                            <i class="fas fa-shield-alt"></i>
+                            <span class="player-goals-label">${worstDefense.golsContra} gols sofridos</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Nenhuma partida jogada</p>
+                    </div>
+                `;
+            }
+        }
+        // Mostrar erro
+        function showError(message) {
+            // Aqui você pode adicionar uma notificação visual se quiser
+        }
+        // Verificar autenticação
+        async function checkAuth() {
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session?.user) {
+                    currentUser = session.user;
+                    await loadAdminProfile();
+                    showAdminAccess();
+                }
+            } catch (error) {
+            }
+        }
+        // Carregar perfil do admin
+        async function loadAdminProfile() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('admins')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .single();
+                if (error) throw error;
+                currentAdmin = data;
+            } catch (error) {
+                currentAdmin = null;
+            }
+        }
+        // Mostrar acesso administrativo
+        function showAdminAccess() {
+            if (currentAdmin && (currentAdmin.role === 'admin' || currentAdmin.role === 'super_admin')) {
+                document.getElementById('admin-access').style.display = 'block';
+            }
+        }
+        // Ir para área administrativa
+        function goToAdmin() {
+            window.location.href = 'admin.html';
+        }
+        // Abrir modal de partida
+        function openMatchModal(matchId) {
+            if (!currentAdmin || (currentAdmin.role !== 'admin' && currentAdmin.role !== 'super_admin')) {
+                showAlertModal('Acesso Negado', 'Apenas administradores podem editar partidas!');
+                return;
+            }
+            currentMatch = matches.find(m => m.id === matchId);
+            if (!currentMatch) return;
+            const homeTeam = teams.find(t => t.id === currentMatch.team_home_id);
+            const awayTeam = teams.find(t => t.id === currentMatch.team_away_id);
+            const matchDate = formatDateForModal(currentMatch.match_date);
+            // Preencher informações da partida
+            document.getElementById('match-info').textContent = `${homeTeam?.name || 'Time Casa'} vs ${awayTeam?.name || 'Time Visitante'} - ${matchDate}`;
+            document.getElementById('home-team-name').textContent = homeTeam?.name || 'Time Casa';
+            document.getElementById('away-team-name').textContent = awayTeam?.name || 'Time Visitante';
+            // Preencher placar atual
+            const isFinished = currentMatch.status === 'finished';
+            document.getElementById('match-finished').checked = isFinished;
+            document.getElementById('home-goals').value = currentMatch.home_goals || 0;
+            document.getElementById('away-goals').value = currentMatch.away_goals || 0;
+            // Desabilitar edição se a partida estiver encerrada
+            if (isFinished) {
+                document.getElementById('home-goals').disabled = true;
+                document.getElementById('away-goals').disabled = true;
+                document.getElementById('match-finished').disabled = true;
+                // Desabilitar inputs de gols dos jogadores
+                const goalInputs = document.querySelectorAll('#home-players-goals input, #away-players-goals input');
+                goalInputs.forEach(input => input.disabled = true);
+            } else {
+                document.getElementById('home-goals').disabled = false;
+                document.getElementById('away-goals').disabled = false;
+                document.getElementById('match-finished').disabled = false;
+            }
+            // Carregar jogadores dos times
+            loadPlayersForMatch(homeTeam, awayTeam);
+            document.getElementById('match-modal').style.display = 'block';
+        }
+        // Fechar modal de partida
+        function closeMatchModal() {
+            document.getElementById('match-modal').style.display = 'none';
+            currentMatch = null;
+        }
+        // Funções para modal de times
+        function openTeamsModal() {
+            loadTeamsForModal();
+            document.getElementById('teams-modal').style.display = 'block';
+        }
+        function closeTeamsModal() {
+            document.getElementById('teams-modal').style.display = 'none';
+        }
+        function loadTeamsForModal() {
+            const content = document.getElementById('teams-list-content');
+            if (teams.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Nenhum time cadastrado ainda.</p>
+                    </div>
+                `;
+                return;
+            }
+            const teamsHTML = teams.map(team => {
+                const teamPlayers = players.filter(p => p.team_id === team.id);
+                return `
+                    <div class="team-card">
+                        ${team.shield_url ?
+                        `<img src="${team.shield_url}" alt="${team.name}" class="team-shield-large">` :
+                        `<div class="team-shield-placeholder">${team.name.charAt(0).toUpperCase()}</div>`
+                    }
+                        <div class="team-info">
+                            <div class="team-name">${team.name}</div>
+                            <div class="team-stats">
+                                <div class="team-stat">
+                                    <i class="fas fa-users"></i>
+                                    <span>${teamPlayers.length} jogadores</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            content.innerHTML = teamsHTML;
+        }
+        // Funções para modal de jogadores
+        function openPlayersModal() {
+            loadPlayersForModal();
+            document.getElementById('players-modal').style.display = 'block';
+        }
+        function closePlayersModal() {
+            document.getElementById('players-modal').style.display = 'none';
+        }
+        // Exportar jogadores para CSV
+        function exportPlayersToCSV() {
+            try {
+                if (!players || players.length === 0) {
+                    showToast('Nenhum jogador para exportar', 'warning');
+                    return;
+                }
+                // Ordenar jogadores alfabeticamente
+                const sortedPlayers = [...players].sort((a, b) => a.name.localeCompare(b.name));
+                // Criar CSV
+                let csvContent = 'Nome do Jogador\n';
+                sortedPlayers.forEach(player => {
+                    csvContent += `"${player.name}"\n`;
+                });
+                // Download do arquivo
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', `jogadores_${new Date().toISOString().split('T')[0]}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('CSV de jogadores exportado com sucesso!', 'success');
+            } catch (error) {
+                showToast('Erro ao exportar CSV: ' + error.message, 'error');
+            }
+        }
+        // Funções para modal de gols do dia
+        function openGoalsTodayModal() {
+            loadGoalsTodayForModal();
+            document.getElementById('goals-today-modal').style.display = 'block';
+        }
+        function closeGoalsTodayModal() {
+            document.getElementById('goals-today-modal').style.display = 'none';
+        }
+
+        // Funções para modal de alerta
+        function showAlertModal(title, message) {
+            document.getElementById('alert-title').textContent = title;
+            document.getElementById('alert-message').textContent = message;
+            document.getElementById('alert-modal').style.display = 'block';
+        }
+
+        function closeAlertModal() {
+            document.getElementById('alert-modal').style.display = 'none';
+        }
+        function loadGoalsTodayForModal() {
+            const content = document.getElementById('goals-today-content');
+            // Usar a data selecionada no filtro ou hoje
+            const filterDate = selectedDate || new Date().toISOString().split('T')[0];
+            // Buscar gols da data selecionada
+            const todayGoals = goals.filter(goal => {
+                const match = matches.find(m => m.id === goal.match_id);
+                return match && match.match_date === filterDate;
+            });
+            if (todayGoals.length === 0) {
+                const dateLabel = filterDate === new Date().toISOString().split('T')[0] ? 'hoje' : `em ${formatDate(filterDate)}`;
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-futbol"></i>
+                        <p>Nenhum gol ${dateLabel}</p>
+                    </div>
+                `;
+                return;
+            }
+            // Agrupar gols por jogador
+            const playerGoals = {};
+            todayGoals.forEach(goal => {
+                const player = players.find(p => p.id === goal.player_id);
+                if (player) {
+                    if (!playerGoals[player.id]) {
+                        playerGoals[player.id] = {
+                            player: player,
+                            goals: 0
+                        };
+                    }
+                    playerGoals[player.id].goals++;
+                }
+            });
+            // Converter para array e ordenar por gols
+            const goalsList = Object.values(playerGoals).sort((a, b) => b.goals - a.goals);
+            if (goalsList.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-futbol"></i>
+                        <p>Nenhum gol encontrado</p>
+                    </div>
+                `;
+                return;
+            }
+            // Gerar HTML dos gols
+            const goalsHTML = goalsList.map(goalData => {
+                const player = goalData.player;
+                const team = teams.find(t => t.id === player.team_id);
+                return `
+                    <div class="player-card">
+                        <div class="player-avatar">
+                            ${team && team.shield_url ? 
+                                `<img src="${team.shield_url}" alt="${team.name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">` :
+                                (team ? team.name.charAt(0).toUpperCase() : '?')
+                            }
+                        </div>
+                        <div class="player-details">
+                            <div class="player-name">${player.name}</div>
+                            <div class="player-team">${team ? team.name : 'Time não encontrado'}</div>
+                        </div>
+                        <div class="player-goals">
+                            <i class="fas fa-futbol"></i>
+                            <span class="player-goals-label">${goalData.goals} gol${goalData.goals > 1 ? 's' : ''}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            // Calcular total de gols das partidas para detectar gols contra
+            const totalMatchGoals = matches.filter(match => match.match_date === filterDate).reduce((total, match) => {
+                return total + (match.home_goals || 0) + (match.away_goals || 0);
+            }, 0);
+            // Detectar gols contra
+            const playerGoalsTotal = goalsList.reduce((total, goalData) => total + goalData.goals, 0);
+            const ownGoals = totalMatchGoals - playerGoalsTotal;
+            let summaryText = `Total de ${todayGoals.length} gol${todayGoals.length > 1 ? 's' : ''} marcado${todayGoals.length > 1 ? 's' : ''} por ${goalsList.length} jogador${goalsList.length > 1 ? 'es' : ''}`;
+            if (ownGoals > 0) {
+                summaryText += ` (${ownGoals} gol${ownGoals > 1 ? 's' : ''} contra)`;
+            }
+            content.innerHTML = `
+                <div class="goals-summary">
+                    <h4>Resumo dos Gols - ${formatDate(filterDate)}</h4>
+                    <p>${summaryText}</p>
+                </div>
+                <div class="goals-list">
+                    ${goalsHTML}
+                </div>
+            `;
+        }
+        function loadPlayersForModal() {
+            const content = document.getElementById('players-list-content');
+            if (teams.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Nenhum time cadastrado ainda.</p>
+                    </div>
+                `;
+                return;
+            }
+            const teamsHTML = teams.map(team => {
+                const teamPlayers = players.filter(p => p.team_id === team.id);
+                if (teamPlayers.length === 0) {
+                    return `
+                        <div class="players-by-team">
+                            <div class="team-header">
+                                ${team.shield_url ?
+                            `<img src="${team.shield_url}" alt="${team.name}" class="team-header-shield">` :
+                            `<div class="team-header-shield-placeholder">${team.name.charAt(0).toUpperCase()}</div>`
+                        }
+                                <div class="team-header-info">
+                                    <h4>${team.name}</h4>
+                                    <p>Nenhum jogador cadastrado</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                const playersHTML = teamPlayers.map(player => {
+                    const playerGoals = goals.filter(g => g.player_id === player.id);
+                    return `
+                        <div class="player-card">
+                            <div class="player-info">
+                                <div class="player-avatar">${player.name.charAt(0).toUpperCase()}</div>
+                                <div class="player-details">
+                                    <h5>${player.name}</h5>
+                                </div>
+                            </div>
+                            <div class="player-goals">
+                                <i class="fas fa-futbol"></i>
+                                <span>${playerGoals.length} gols</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                return `
+                    <div class="players-by-team">
+                        <div class="team-header">
+                            ${team.shield_url ?
+                        `<img src="${team.shield_url}" alt="${team.name}" class="team-header-shield">` :
+                        `<div class="team-header-shield-placeholder">${team.name.charAt(0).toUpperCase()}</div>`
+                    }
+                            <div class="team-header-info">
+                                <h4>${team.name}</h4>
+                                <p>${teamPlayers.length} jogadores</p>
+                            </div>
+                        </div>
+                        <div class="players-list">
+                            ${playersHTML}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            content.innerHTML = teamsHTML;
+        }
+        // Carregar jogadores para a partida
+        function loadPlayersForMatch(homeTeam, awayTeam) {
+            const homePlayers = players.filter(p => p.team_id === homeTeam?.id);
+            const awayPlayers = players.filter(p => p.team_id === awayTeam?.id);
+            // Buscar gols existentes para esta partida
+            const existingGoals = goals.filter(g => g.match_id === currentMatch.id);
+            // Renderizar jogadores do time da casa
+            const homeContainer = document.getElementById('home-players-goals');
+            homeContainer.innerHTML = homePlayers.map(player => {
+                const playerGoals = existingGoals.filter(g => g.player_id === player.id);
+                const goalCount = playerGoals.length;
+                return `
+                    <div class="player-goal">
+                        <span>${player.name}</span>
+                        <input type="number" min="0" max="10" value="${goalCount}" data-player-id="${player.id}" data-team="home">
+                    </div>
+                `;
+            }).join('');
+            // Renderizar jogadores do time visitante
+            const awayContainer = document.getElementById('away-players-goals');
+            awayContainer.innerHTML = awayPlayers.map(player => {
+                const playerGoals = existingGoals.filter(g => g.player_id === player.id);
+                const goalCount = playerGoals.length;
+                return `
+                    <div class="player-goal">
+                        <span>${player.name}</span>
+                        <input type="number" min="0" max="10" value="${goalCount}" data-player-id="${player.id}" data-team="away">
+                    </div>
+                `;
+            }).join('');
+            // Atualizar placar baseado nos gols existentes
+            updateScoreFromPlayers();
+            // Carregar jogadores de outros times
+            loadOtherPlayers();
+            // Carregar gols de outros jogadores existentes
+            loadOtherPlayerGoals();
+            // Desabilitar inputs se a partida estiver encerrada
+            const isFinished = currentMatch.status === 'finished';
+            if (isFinished) {
+                const allGoalInputs = document.querySelectorAll('#home-players-goals input, #away-players-goals input');
+                allGoalInputs.forEach(input => input.disabled = true);
+                // Desabilitar seção de outros jogadores
+                document.getElementById('other-player-select').disabled = true;
+                document.getElementById('other-goal-team').disabled = true;
+                document.getElementById('other-goal-count').disabled = true;
+            }
+        }
+        // Carregar jogadores de outros times
+        function loadOtherPlayers() {
+            const homeTeam = teams.find(t => t.id === currentMatch.team_home_id);
+            const awayTeam = teams.find(t => t.id === currentMatch.team_away_id);
+            // Filtrar jogadores que NÃO são dos times da partida
+            const otherPlayers = players.filter(p =>
+                p.team_id !== homeTeam?.id && p.team_id !== awayTeam?.id
+            );
+            const select = document.getElementById('other-player-select');
+            select.innerHTML = '<option value="">Selecione um jogador</option>';
+            otherPlayers.forEach(player => {
+                const playerTeam = teams.find(t => t.id === player.team_id);
+                const option = document.createElement('option');
+                option.value = player.id;
+                option.textContent = `${player.name} (${playerTeam?.name || 'Time não encontrado'})`;
+                select.appendChild(option);
+            });
+        }
+        // Carregar gols de outros jogadores existentes
+        function loadOtherPlayerGoals() {
+            otherPlayerGoals = [];
+            const existingGoals = goals.filter(g => g.match_id === currentMatch.id);
+            // Buscar gols de jogadores que não são dos times da partida
+            const homeTeam = teams.find(t => t.id === currentMatch.team_home_id);
+            const awayTeam = teams.find(t => t.id === currentMatch.team_away_id);
+            // Agrupar gols por jogador para contar quantos gols cada um fez
+            const goalsByPlayer = {};
+            existingGoals.forEach(goal => {
+                const player = players.find(p => p.id === goal.player_id);
+                if (player && player.team_id !== homeTeam?.id && player.team_id !== awayTeam?.id) {
+                    if (!goalsByPlayer[goal.player_id]) {
+                        goalsByPlayer[goal.player_id] = {
+                            player_id: goal.player_id,
+                            player_name: player.name,
+                            count: 0
+                        };
+                    }
+                    goalsByPlayer[goal.player_id].count++;
+                }
+            });
+            // Converter para array e determinar para qual time foi o gol
+            // Como não temos team_id na tabela goals, vamos assumir que gols de outros jogadores
+            // são gols contra (para o time adversário)
+            Object.values(goalsByPlayer).forEach(goal => {
+                // Por padrão, vamos colocar como gol para o time da casa
+                // Isso pode ser ajustado manualmente pelo usuário
+                otherPlayerGoals.push({
+                    ...goal,
+                    team: 'home' // Padrão, pode ser alterado pelo usuário
+                });
+            });
+            renderOtherPlayerGoals();
+        }
+        // Renderizar lista de gols de outros jogadores
+        function renderOtherPlayerGoals() {
+            const container = document.getElementById('other-goals-list');
+            if (otherPlayerGoals.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280; font-size: 0.875rem; text-align: center; padding: 1rem;">Nenhum gol de outros jogadores</p>';
+                return;
+            }
+            container.innerHTML = otherPlayerGoals.map((goal, index) => {
+                const teamName = goal.team === 'home' ?
+                    teams.find(t => t.id === currentMatch.team_home_id)?.name :
+                    teams.find(t => t.id === currentMatch.team_away_id)?.name;
+                return `
+                    <div class="other-goal-item">
+                        <span>${goal.player_name} → ${teamName} (${goal.count} gol${goal.count > 1 ? 's' : ''})</span>
+                        <button type="button" class="remove-btn" onclick="removeOtherPlayerGoal(${index})">Remover</button>
+                    </div>
+                `;
+            }).join('');
+        }
+        // Adicionar gol de outro jogador
+        function addOtherPlayerGoal() {
+            const playerId = document.getElementById('other-player-select').value;
+            const goalTeam = document.getElementById('other-goal-team').value;
+            const goalCount = parseInt(document.getElementById('other-goal-count').value) || 1;
+            if (!playerId || !goalTeam) {
+                showAlertModal('Seleção Necessária', 'Por favor, selecione um jogador e para qual time foi o gol.');
+                return;
+            }
+            const player = players.find(p => p.id === playerId);
+            if (!player) return;
+            // Verificar se já existe um gol deste jogador
+            const existingIndex = otherPlayerGoals.findIndex(g => g.player_id === playerId && g.team === goalTeam);
+            if (existingIndex >= 0) {
+                otherPlayerGoals[existingIndex].count += goalCount;
+            } else {
+                otherPlayerGoals.push({
+                    player_id: playerId,
+                    player_name: player.name,
+                    team: goalTeam,
+                    count: goalCount
+                });
+            }
+            renderOtherPlayerGoals();
+            updateScoreFromPlayers();
+            // Limpar campos
+            document.getElementById('other-player-select').value = '';
+            document.getElementById('other-goal-team').value = '';
+            document.getElementById('other-goal-count').value = '1';
+        }
+        // Remover gol de outro jogador
+        function removeOtherPlayerGoal(index) {
+            otherPlayerGoals.splice(index, 1);
+            renderOtherPlayerGoals();
+            updateScoreFromPlayers();
+        }
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            initializeDateFilter();
+            loadData();
+            // Event listener para checkbox de partida encerrada (apenas para controle interno)
+            document.getElementById('match-finished').addEventListener('change', function () {
+            });
+            // Event listener para formulário de edição de partida
+            document.getElementById('match-edit-form').addEventListener('submit', handleMatchEdit);
+            // Event listeners para cálculo automático do placar
+            document.addEventListener('input', function (e) {
+                if (e.target.matches('#home-players-goals input[type="number"], #away-players-goals input[type="number"]')) {
+                    updateScoreFromPlayers();
+                }
+            });
+        });
+        // Manipular edição de partida
+        async function handleMatchEdit(e) {
+            e.preventDefault();
+            if (!currentMatch) return;
+            const isFinished = document.getElementById('match-finished').checked;
+            const homeGoals = parseInt(document.getElementById('home-goals').value) || 0;
+            const awayGoals = parseInt(document.getElementById('away-goals').value) || 0;
+            // Se a partida estiver sendo finalizada, pedir confirmação
+            if (isFinished && currentMatch.status !== 'finished') {
+                const confirmMessage = `Tem certeza que deseja finalizar a partida?\n\nPlacar final: ${homeGoals} x ${awayGoals}\n\nApós finalizar, não será possível alterar o placar.`;
+                if (!confirm(confirmMessage)) {
+                    return;
+                }
+            }
+            try {
+                // Salvar placar e status no banco
+                await saveScoreToDatabase(homeGoals, awayGoals, isFinished);
+                // Se a partida foi encerrada, processar gols dos jogadores
+                if (isFinished) {
+                    await processPlayerGoals();
+                }
+                closeMatchModal();
+                await loadData();
+                updateUI();
+                if (isFinished) {
+                    showAlertModal('Sucesso', 'Partida finalizada com sucesso!');
+                } else {
+                    showAlertModal('Sucesso', 'Partida atualizada com sucesso!');
+                }
+            } catch (error) {
+                showAlertModal('Erro', 'Erro ao atualizar partida: ' + error.message);
+            }
+        }
+        // Atualizar placar baseado nos gols dos jogadores
+        async function updateScoreFromPlayers() {
+            const homeGoalInputs = document.querySelectorAll('#home-players-goals input[type="number"]');
+            const awayGoalInputs = document.querySelectorAll('#away-players-goals input[type="number"]');
+            let homeTotalGoals = 0;
+            let awayTotalGoals = 0;
+            // Gols dos jogadores dos times da partida
+            homeGoalInputs.forEach(input => {
+                const goals = parseInt(input.value) || 0;
+                homeTotalGoals += goals;
+            });
+            awayGoalInputs.forEach(input => {
+                const goals = parseInt(input.value) || 0;
+                awayTotalGoals += goals;
+            });
+            // Gols de outros jogadores
+            otherPlayerGoals.forEach(goal => {
+                if (goal.team === 'home') {
+                    homeTotalGoals += goal.count;
+                } else {
+                    awayTotalGoals += goal.count;
+                }
+            });
+            // Atualizar os campos de placar
+            document.getElementById('home-goals').value = homeTotalGoals;
+            document.getElementById('away-goals').value = awayTotalGoals;
+            // Salvar placar em tempo real no banco (se não estiver encerrada)
+            if (currentMatch && !document.getElementById('match-finished').checked) {
+                await saveScoreToDatabase(homeTotalGoals, awayTotalGoals, false);
+            }
+        }
+        // Salvar placar no banco de dados
+        async function saveScoreToDatabase(homeGoals, awayGoals, isFinished) {
+            try {
+                const status = isFinished ? 'finished' : 'in_progress';
+                const { error } = await supabaseClient
+                    .from('matches')
+                    .update({
+                        home_goals: homeGoals,
+                        away_goals: awayGoals,
+                        status: status
+                    })
+                    .eq('id', currentMatch.id);
+                if (error) {
+                    throw error;
+                }
+                // Atualizar dados locais
+                currentMatch.home_goals = homeGoals;
+                currentMatch.away_goals = awayGoals;
+                currentMatch.status = status;
+            } catch (error) {
+                throw error;
+            }
+        }
+        // Processar gols dos jogadores
+        async function processPlayerGoals() {
+            const homeGoalInputs = document.querySelectorAll('#home-players-goals input[type="number"]');
+            const awayGoalInputs = document.querySelectorAll('#away-players-goals input[type="number"]');
+            // Remover gols existentes da partida
+            const { error: deleteError } = await supabaseClient
+                .from('goals')
+                .delete()
+                .eq('match_id', currentMatch.id);
+            if (deleteError) {
+                throw deleteError;
+            }
+            // Adicionar novos gols
+            const goalsToInsert = [];
+            // Gols dos jogadores dos times da partida
+            homeGoalInputs.forEach(input => {
+                const goals = parseInt(input.value) || 0;
+                if (goals > 0) {
+                    // Inserir um registro para cada gol marcado
+                    for (let i = 0; i < goals; i++) {
+                        goalsToInsert.push({
+                            match_id: currentMatch.id,
+                            player_id: input.dataset.playerId,
+                            minute: 0, // Minuto padrão, pode ser ajustado depois
+                            created_at: new Date().toISOString()
+                        });
+                    }
+                }
+            });
+            awayGoalInputs.forEach(input => {
+                const goals = parseInt(input.value) || 0;
+                if (goals > 0) {
+                    // Inserir um registro para cada gol marcado
+                    for (let i = 0; i < goals; i++) {
+                        goalsToInsert.push({
+                            match_id: currentMatch.id,
+                            player_id: input.dataset.playerId,
+                            minute: 0, // Minuto padrão, pode ser ajustado depois
+                            created_at: new Date().toISOString()
+                        });
+                    }
+                }
+            });
+            // Gols de outros jogadores
+            otherPlayerGoals.forEach(goal => {
+                for (let i = 0; i < goal.count; i++) {
+                    goalsToInsert.push({
+                        match_id: currentMatch.id,
+                        player_id: goal.player_id,
+                        minute: 0,
+                        created_at: new Date().toISOString()
+                    });
+                }
+            });
+            if (goalsToInsert.length > 0) {
+                const { error: insertError } = await supabaseClient
+                    .from('goals')
+                    .insert(goalsToInsert);
+                if (insertError) {
+                    throw insertError;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
